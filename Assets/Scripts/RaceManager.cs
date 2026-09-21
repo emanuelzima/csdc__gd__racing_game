@@ -21,6 +21,7 @@ public class RaceManager : MonoBehaviour
     private float currentLapTime = 0f;
     private float bestLapTime = float.MaxValue;
     private float totalTime = 0f;
+    private List<float> completedLapTimes = new List<float>();
 
     private Checkpoint lastPassedCheckpoint;
     private Rigidbody playerRb;
@@ -51,7 +52,7 @@ public class RaceManager : MonoBehaviour
         if (raceHUD != null)
         {
             raceHUD.UpdateLapCounter(currentLap, totalLaps);
-            raceHUD.UpdateBestLapTime(bestLapTime);
+            raceHUD.UpdateBestLapTime(bestLapTime, false);
         }
 
         StartCoroutine(CountdownRoutine());
@@ -130,18 +131,25 @@ public class RaceManager : MonoBehaviour
 
     private void CompleteLap()
     {
+        completedLapTimes.Add(currentLapTime);
+
+        bool isNewBest = false;
         if (currentLapTime < bestLapTime)
         {
             bestLapTime = currentLapTime;
-            if (raceHUD != null) raceHUD.UpdateBestLapTime(bestLapTime);
+            isNewBest = true;
         }
+
+        if (raceHUD != null)
+            raceHUD.UpdateBestLapTime(bestLapTime, isNewBest);
 
         currentLapTime = 0f;
 
         if (currentLap < totalLaps)
         {
             currentLap++;
-            if (raceHUD != null) raceHUD.UpdateLapCounter(currentLap, totalLaps);
+            if (raceHUD != null)
+                raceHUD.UpdateLapCounter(currentLap, totalLaps);
         }
         else
         {
@@ -158,7 +166,7 @@ public class RaceManager : MonoBehaviour
             playerCar.SetControlsEnabled(false);
 
         if (raceHUD != null)
-            raceHUD.ShowFinishScreen(totalTime, bestLapTime);
+            raceHUD.ShowFinishScreen(totalTime, bestLapTime, completedLapTimes);
     }
 
     private void ResetCarToLastCheckpoint()
