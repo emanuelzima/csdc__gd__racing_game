@@ -24,15 +24,28 @@ public class CarController : MonoBehaviour
     [SerializeField] private Transform rearLeftWheel;
     [SerializeField] private Transform rearRightWheel;
     [SerializeField] private float maxSteerAngle = 30f;
-    [SerializeField] private float wheelRadius = 0.35f;
+    [SerializeField] private float wheelRadius = 0.2f;
 
     private Rigidbody rb;
     private float moveInput;
     private float steerInput;
     private bool isBraking;
     private float currentRollAngle;
+    private bool controlsEnabled = false;
 
     public float CurrentSpeed => Vector3.Dot(rb.linearVelocity, transform.forward);
+    public float SpeedKmh => Mathf.Abs(CurrentSpeed) * 3.6f;
+
+    public void SetControlsEnabled(bool state)
+    {
+        controlsEnabled = state;
+        if (!state)
+        {
+            moveInput = 0f;
+            steerInput = 0f;
+            isBraking = false;
+        }
+    }
 
     private void Awake()
     {
@@ -45,18 +58,22 @@ public class CarController : MonoBehaviour
 
     private void Update()
     {
-        Keyboard keyboard = Keyboard.current;
-        if (keyboard == null) return;
+        if (controlsEnabled)
+        {
+            Keyboard keyboard = Keyboard.current;
+            if (keyboard != null)
+            {
+                moveInput = 0f;
+                if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed) moveInput += 1f;
+                if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed) moveInput -= 1f;
 
-        moveInput = 0f;
-        if (keyboard.wKey.isPressed || keyboard.upArrowKey.isPressed) moveInput += 1f;
-        if (keyboard.sKey.isPressed || keyboard.downArrowKey.isPressed) moveInput -= 1f;
+                steerInput = 0f;
+                if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed) steerInput += 1f;
+                if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed) steerInput -= 1f;
 
-        steerInput = 0f;
-        if (keyboard.dKey.isPressed || keyboard.rightArrowKey.isPressed) steerInput += 1f;
-        if (keyboard.aKey.isPressed || keyboard.leftArrowKey.isPressed) steerInput -= 1f;
-
-        isBraking = keyboard.spaceKey.isPressed;
+                isBraking = keyboard.spaceKey.isPressed;
+            }
+        }
 
         UpdateWheelVisuals();
         UpdateEngineSound();
