@@ -11,6 +11,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private float turnSpeed = 100f;
     [SerializeField] private float brakeDrag = 4f;
     [SerializeField] private float normalDrag = 1f;
+    [SerializeField] private float extraGravity = 20f;
 
     [Header("Engine Sound")]
     [SerializeField] private AudioSource engineAudioSource;
@@ -92,6 +93,7 @@ public class CarController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        rb.AddForce(Vector3.down * extraGravity, ForceMode.Acceleration);
         ApplyBrakingAndDrag();
         ApplyDriveForce();
         ApplySteering();

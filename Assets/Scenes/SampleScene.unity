@@ -4719,7 +4719,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08357c0db7bb64ddc84315daa912c7b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  index: 3
 --- !u!1001 &277460493
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6986,7 +6985,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08357c0db7bb64ddc84315daa912c7b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  index: 0
 --- !u!1 &400276832 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6f768e0207bf2efc5aab5b7a25e9fb37, type: 3}
@@ -14036,7 +14034,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08357c0db7bb64ddc84315daa912c7b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  index: 1
 --- !u!1 &867988551 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 6f768e0207bf2efc5aab5b7a25e9fb37, type: 3}
@@ -18624,12 +18621,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 758aa7dfc64d6f93397b519b75cb1702, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CarController
-  acceleration: 14
-  reverseAcceleration: 15
-  maxSpeed: 16
+  acceleration: 25
+  reverseAcceleration: 25
+  maxSpeed: 15
   turnSpeed: 170
   brakeDrag: 3
   normalDrag: 1
+  extraGravity: 20
   engineAudioSource: {fileID: 1092702521}
   minPitch: 1
   maxPitch: 2.5
@@ -38173,7 +38171,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08357c0db7bb64ddc84315daa912c7b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Checkpoint
-  index: 2
 --- !u!4 &2051248024 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 3b1a606800d9b4baaa12a00456f772f0, type: 3}

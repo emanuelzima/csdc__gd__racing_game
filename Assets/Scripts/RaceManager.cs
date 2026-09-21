@@ -25,9 +25,6 @@ public class RaceManager : MonoBehaviour
 
     private Checkpoint lastPassedCheckpoint;
 
-    public int CurrentLap => currentLap;
-    public int TotalLaps => totalLaps;
-
     private void Awake()
     {
         for (int i = 0; i < checkpoints.Count; i++)
@@ -170,11 +167,8 @@ public class RaceManager : MonoBehaviour
         if (playerCar == null || lastPassedCheckpoint == null) return;
 
         Transform targetTransform = lastPassedCheckpoint.transform;
-        Vector3 spawnPosition = targetTransform.position;
-
         Collider col = lastPassedCheckpoint.GetComponent<Collider>();
-        if (col != null)
-            spawnPosition = col.bounds.center;
+        Vector3 spawnPosition = col != null ? col.bounds.center : targetTransform.position;
 
         Vector3 targetPos = spawnPosition + Vector3.up * 0.2f;
         playerCar.Teleport(targetPos, targetTransform.rotation);

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using TMPro;
@@ -94,7 +93,7 @@ public class RaceHUD : MonoBehaviour
         }
     }
 
-    private IEnumerator HighlightRoutine()
+    private System.Collections.IEnumerator HighlightRoutine()
     {
         bestLapTimeText.color = highlightBestTimeColor;
         yield return new WaitForSeconds(highlightDuration);

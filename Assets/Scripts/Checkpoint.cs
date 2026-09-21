@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    [SerializeField] private int index;
+    private int index;
     private RaceManager raceManager;
 
     public int Index => index;
