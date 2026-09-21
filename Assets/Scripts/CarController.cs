@@ -12,6 +12,12 @@ public class CarController : MonoBehaviour
     [SerializeField] private float brakeDrag = 4f;
     [SerializeField] private float normalDrag = 1f;
 
+    [Header("Engine Sound")]
+    [SerializeField] private AudioSource engineAudioSource;
+    [SerializeField] private float minPitch = 0.6f;
+    [SerializeField] private float maxPitch = 2.0f;
+    [SerializeField] private float pitchChangeSpeed = 5f;
+
     [Header("Visual Wheels")]
     [SerializeField] private Transform frontLeftWheel;
     [SerializeField] private Transform frontRightWheel;
@@ -32,6 +38,9 @@ public class CarController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = new Vector3(0f, -0.3f, 0f);
+
+        if (engineAudioSource == null)
+            engineAudioSource = GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -50,6 +59,7 @@ public class CarController : MonoBehaviour
         isBraking = keyboard.spaceKey.isPressed;
 
         UpdateWheelVisuals();
+        UpdateEngineSound();
     }
 
     private void FixedUpdate()
@@ -127,5 +137,15 @@ public class CarController : MonoBehaviour
     {
         if (wheel == null) return;
         wheel.localRotation = Quaternion.Euler(0f, steer, 0f) * Quaternion.Euler(roll, 0f, 0f);
+    }
+
+    private void UpdateEngineSound()
+    {
+        if (engineAudioSource == null) return;
+
+        float speedRatio = Mathf.Clamp01(Mathf.Abs(CurrentSpeed) / maxSpeed);
+        float targetPitch = Mathf.Lerp(minPitch, maxPitch, speedRatio);
+
+        engineAudioSource.pitch = Mathf.Lerp(engineAudioSource.pitch, targetPitch, pitchChangeSpeed * Time.deltaTime);
     }
 }
