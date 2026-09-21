@@ -47,6 +47,17 @@ public class CarController : MonoBehaviour
         }
     }
 
+    public void Teleport(Vector3 position, Quaternion rotation)
+    {
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        rb.position = position;
+        rb.rotation = rotation;
+        transform.position = position;
+        transform.rotation = rotation;
+        Physics.SyncTransforms();
+    }
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();

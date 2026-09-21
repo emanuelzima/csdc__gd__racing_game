@@ -15,8 +15,10 @@ public class Checkpoint : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (raceManager == null) return;
+
         CarController car = other.GetComponentInParent<CarController>();
-        if (car != null && raceManager != null)
+        if (car != null)
         {
             raceManager.OnCarPassedCheckpoint(this, car);
         }

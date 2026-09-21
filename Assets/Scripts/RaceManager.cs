@@ -21,19 +21,15 @@ public class RaceManager : MonoBehaviour
     private float currentLapTime = 0f;
     private float bestLapTime = float.MaxValue;
     private float totalTime = 0f;
-    private List<float> completedLapTimes = new List<float>();
+    private readonly List<float> completedLapTimes = new List<float>();
 
     private Checkpoint lastPassedCheckpoint;
-    private Rigidbody playerRb;
 
     public int CurrentLap => currentLap;
     public int TotalLaps => totalLaps;
 
     private void Awake()
     {
-        if (playerCar != null)
-            playerRb = playerCar.GetComponent<Rigidbody>();
-
         for (int i = 0; i < checkpoints.Count; i++)
         {
             if (checkpoints[i] != null)
@@ -169,7 +165,7 @@ public class RaceManager : MonoBehaviour
             raceHUD.ShowFinishScreen(totalTime, bestLapTime, completedLapTimes);
     }
 
-    private void ResetCarToLastCheckpoint()
+    public void ResetCarToLastCheckpoint()
     {
         if (playerCar == null || lastPassedCheckpoint == null) return;
 
@@ -181,19 +177,6 @@ public class RaceManager : MonoBehaviour
             spawnPosition = col.bounds.center;
 
         Vector3 targetPos = spawnPosition + Vector3.up * 0.2f;
-        Quaternion targetRot = targetTransform.rotation;
-
-        if (playerRb != null)
-        {
-            playerRb.linearVelocity = Vector3.zero;
-            playerRb.angularVelocity = Vector3.zero;
-            playerRb.position = targetPos;
-            playerRb.rotation = targetRot;
-        }
-
-        playerCar.transform.position = targetPos;
-        playerCar.transform.rotation = targetRot;
-
-        Physics.SyncTransforms();
+        playerCar.Teleport(targetPos, targetTransform.rotation);
     }
 }

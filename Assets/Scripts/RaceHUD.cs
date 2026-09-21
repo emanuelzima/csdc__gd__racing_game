@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -38,6 +39,15 @@ public class RaceHUD : MonoBehaviour
 
         if (bestLapTimeText != null)
             bestLapTimeText.color = normalBestTimeColor;
+    }
+
+    private void OnDestroy()
+    {
+        if (restartButton != null)
+            restartButton.onClick.RemoveListener(RestartRace);
+
+        if (exitButton != null)
+            exitButton.onClick.RemoveListener(ExitGame);
     }
 
     public void SetCountdownText(string text)
@@ -106,12 +116,18 @@ public class RaceHUD : MonoBehaviour
 
         if (finishSummaryText != null)
         {
-            string summary = $"Race Finished!\n\nTotal Time: {FormatTime(totalTime)}\nBest Lap: {FormatTime(bestLapTime)}\n\nLaps:\n";
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Race Finished!\n");
+            sb.AppendLine($"Total Time: {FormatTime(totalTime)}");
+            sb.AppendLine($"Best Lap: {FormatTime(bestLapTime)}\n");
+            sb.AppendLine("Laps:");
+
             for (int i = 0; i < lapTimes.Count; i++)
             {
-                summary += $"Lap {i + 1}: {FormatTime(lapTimes[i])}\n";
+                sb.AppendLine($"Lap {i + 1}: {FormatTime(lapTimes[i])}");
             }
-            finishSummaryText.text = summary;
+
+            finishSummaryText.text = sb.ToString();
         }
     }
 
